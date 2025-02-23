@@ -11,7 +11,7 @@ Welcome to the **Library Management System**! This project is a full-stack appli
 
 ## 🚀 Live Demo
 
-[Click here to access the live demo](#) *(Replace with your deployed link)*
+[Click here to access the live demo](https://glittering-fox-e7f527.netlify.app) 
 
 ## 🛠 Technologies Used
 
