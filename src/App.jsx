@@ -7,7 +7,7 @@ import Authors from './pages/Authors/Authors';
 import Publisher from './pages/Publisher/Publisher';
 import Category from './pages/Category/Category';
 import Book from './pages/Book/Book';
-import Barrow from './pages/Barrow/Barrow ';
+import Barrow from './pages/Barrow/Barrow';
 
 
 function App() {

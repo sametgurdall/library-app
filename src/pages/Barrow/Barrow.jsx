@@ -11,9 +11,7 @@ import {
   TableRow,
   Paper,
   TextField,
-  InputLabel,
   MenuItem,
-  Select,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
@@ -63,11 +61,11 @@ function Barrow() {
   const handleBarrowPost = async () => {
     try {
       const selectedBook = books.find((book) => book.id === newBarrow.book.id);
-  
+
       if (!selectedBook) {
         throw new Error("Kitap bulunamadı!");
       }
-  
+
       const barrowToSend = {
         borrowerName: newBarrow.borrowerName,
         borrowerMail: newBarrow.borrowerMail,
@@ -75,24 +73,29 @@ function Barrow() {
         returnDate: newBarrow.returnDate,
         bookForBorrowingRequest: {
           id: selectedBook.id,
-          name: selectedBook.name, 
-          publicationYear: selectedBook.publicationYear, 
-          stock: selectedBook.stock 
-        }
+          name: selectedBook.name,
+          publicationYear: selectedBook.publicationYear,
+          stock: selectedBook.stock,
+        },
       };
-  
+
       console.log("Gönderilen Veri:", JSON.stringify(barrowToSend, null, 2));
-  
-      const response = await axios.post(import.meta.env.VITE_BASE_URL + "/api/v1/borrows", barrowToSend);
+
+      const response = await axios.post(
+        import.meta.env.VITE_BASE_URL + "/api/v1/borrows",
+        barrowToSend
+      );
       handleAlert("Barrow Added");
       setNewBarrow(initialBarrow);
       fetchBarrows();
     } catch (error) {
-      console.error("Ödünç alma eklenirken hata oluştu:", error.response?.data || error.message);
+      console.error(
+        "Ödünç alma eklenirken hata oluştu:",
+        error.response?.data || error.message
+      );
       handleAlert(`Hata: ${error.response?.data?.message || error.message}`);
     }
   };
-  
 
   const handleAlert = (alertM) => {
     setAlertMessage(alertM);
@@ -105,7 +108,7 @@ function Barrow() {
   const handleBarrowDelete = async (id) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_BASE_URL }/api/v1/borrows/${id}`
+        `${import.meta.env.VITE_BASE_URL}/api/v1/borrows/${id}`
       );
       handleAlert(response.data);
       fetchBarrows(); // Delete işleminden sonra listeyi güncelle
@@ -121,7 +124,7 @@ function Barrow() {
   const handleUpdateBarrow = async () => {
     try {
       await axios.put(
-        `${import.meta.env.VITE_BASE_URL }/api/v1/borrows/${updateBarrow.id}`,
+        `${import.meta.env.VITE_BASE_URL}/api/v1/borrows/${updateBarrow.id}`,
         updateBarrow
       );
       setUpdateBarrow(initialBarrow);
@@ -131,9 +134,17 @@ function Barrow() {
       console.error("Ödünç alma güncellenirken hata oluştu:", error);
     }
   };
+
   return (
-    <div>
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+    <div
+      style={{
+        backgroundColor: "#E8D5B9", // Açık bej-kahve arka plan
+        minHeight: "100vh",
+        padding: "20px",
+        color: "#4A3627", // Koyu kahve yazı
+      }}
+    >
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Barrow
       </Typography>
       <div className="newBarrow">
@@ -148,6 +159,13 @@ function Barrow() {
             onChange={(e) =>
               setNewBarrow((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              width: 182, // Genişlik
+              "& .MuiInputBase-root": { height: 32 }, // Yükseklik
+              input: { color: "#4A3627" }, // Koyu kahve yazı
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
+              "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+            }}
           />
         ))}
 
@@ -162,6 +180,13 @@ function Barrow() {
           onChange={(e) =>
             setNewBarrow((prev) => ({ ...prev, borrowingDate: e.target.value }))
           }
+          sx={{
+            width: 182,
+            "& .MuiInputBase-root": { height: 32 },
+            input: { color: "#4A3627" },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
         />
 
         {/* returnDate için date input */}
@@ -175,22 +200,34 @@ function Barrow() {
           onChange={(e) =>
             setNewBarrow((prev) => ({ ...prev, returnDate: e.target.value }))
           }
+          sx={{
+            width: 182,
+            "& .MuiInputBase-root": { height: 32 },
+            input: { color: "#4A3627" },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
         />
 
         {/* Book için select */}
         <div key="book-select">
-          <InputLabel id="select-label-book">Book</InputLabel>
-          <Select
-            labelId="select-label-book"
-            id="select-book"
-            value={newBarrow.book.id || ""}
-            name="book"
+          <TextField
+            select
             label="Book"
-            onChange={(e) => {
+            value={newBarrow.book.id || ""}
+            onChange={(e) =>
               setNewBarrow((prev) => ({
                 ...prev,
                 book: { id: e.target.value },
-              }));
+              }))
+            }
+            variant="standard"
+            sx={{
+              width: 182,
+              "& .MuiInputBase-root": { height: 32 },
+              "& .MuiInputBase-input": { color: "#4A3627" },
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+              "& .MuiInputLabel-root": { color: "#8B6F47" },
             }}
           >
             {books?.map((book) => (
@@ -198,15 +235,23 @@ function Barrow() {
                 {book.name}
               </MenuItem>
             ))}
-          </Select>
+          </TextField>
         </div>
 
-        <Button variant="contained" onClick={handleBarrowPost}>
+        <Button
+          variant="contained"
+          onClick={handleBarrowPost}
+          sx={{
+            bgcolor: "#4A3627", // Koyu kahve buton
+            color: "#F5F5DC", // Bej yazı
+            "&:hover": { bgcolor: "#6B4E31" }, // Hover için açık kahve
+          }}
+        >
           Add New Barrow
         </Button>
       </div>
 
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Update Barrow
       </Typography>
 
@@ -222,6 +267,13 @@ function Barrow() {
             onChange={(e) =>
               setUpdateBarrow((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              width: 182,
+              "& .MuiInputBase-root": { height: 32 },
+              input: { color: "#4A3627" },
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+              "& .MuiInputLabel-root": { color: "#8B6F47" },
+            }}
           />
         ))}
 
@@ -239,6 +291,13 @@ function Barrow() {
               borrowingDate: e.target.value,
             }))
           }
+          sx={{
+            width: 182,
+            "& .MuiInputBase-root": { height: 32 },
+            input: { color: "#4A3627" },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
         />
 
         {/* Update: returnDate için date input */}
@@ -252,22 +311,34 @@ function Barrow() {
           onChange={(e) =>
             setUpdateBarrow((prev) => ({ ...prev, returnDate: e.target.value }))
           }
+          sx={{
+            width: 182,
+            "& .MuiInputBase-root": { height: 32 },
+            input: { color: "#4A3627" },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
         />
 
         {/* Update: Book select */}
         <div key="update-book-select">
-          <InputLabel id="update-select-label-book">Book</InputLabel>
-          <Select
-            labelId="update-select-label-book"
-            id="update-select-book"
-            value={updateBarrow.book?.id || ""}
-            name="book"
+          <TextField
+            select
             label="Book"
-            onChange={(e) => {
+            value={updateBarrow.book?.id || ""}
+            onChange={(e) =>
               setUpdateBarrow((prev) => ({
                 ...prev,
                 book: { id: e.target.value },
-              }));
+              }))
+            }
+            variant="standard"
+            sx={{
+              width: 182,
+              "& .MuiInputBase-root": { height: 32 },
+              "& .MuiInputBase-input": { color: "#4A3627" },
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+              "& .MuiInputLabel-root": { color: "#8B6F47" },
             }}
           >
             {books?.map((book) => (
@@ -275,53 +346,77 @@ function Barrow() {
                 {book.name}
               </MenuItem>
             ))}
-          </Select>
+          </TextField>
         </div>
 
-        <Button variant="contained" onClick={handleUpdateBarrow}>
+        <Button
+          variant="contained"
+          onClick={handleUpdateBarrow}
+          sx={{
+            bgcolor: "#4A3627",
+            color: "#F5F5DC",
+            "&:hover": { bgcolor: "#6B4E31" },
+          }}
+        >
           Update Barrow
         </Button>
       </div>
 
-      <Typography variant="h1" style={{ textAlign: "center", margin: "20px" }}>
-        Barrow
+      <Typography variant="h1" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
+        Barrows
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ bgcolor: "#F5F5DC" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Borrower Name</TableCell>
-              <TableCell align="center">Borrower Mail</TableCell>
-              <TableCell align="center">Borrowing Date</TableCell>
-              <TableCell align="center">Return Date</TableCell>
-              <TableCell align="center">Book</TableCell>
-              <TableCell align="center">Delete</TableCell>
-              <TableCell align="center">Update</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Borrower Name</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>
+                Borrower Mail
+              </TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>
+                Borrowing Date
+              </TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>
+                Return Date
+              </TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Book</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Delete</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Update</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {barrows?.map((barrow) => (
               <TableRow
                 key={barrow.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 }, bgcolor: "#FFF5E1" }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell align="center" component="th" scope="row" sx={{ color: "#4A3627" }}>
                   {barrow.borrowerName}
                 </TableCell>
-                <TableCell align="center">{barrow.borrowerMail}</TableCell>
-                <TableCell align="center">{barrow.borrowingDate}</TableCell>
-                <TableCell align="center">{barrow.returnDate}</TableCell>
-                <TableCell align="center">{barrow.book?.name}</TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {barrow.borrowerMail}
+                </TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {barrow.borrowingDate}
+                </TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {barrow.returnDate}
+                </TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {barrow.book?.name}
+                </TableCell>
                 <TableCell align="center">
                   <DeleteForeverIcon
                     className="deleteIcon"
                     onClick={() => handleBarrowDelete(barrow.id)}
+                    sx={{ color: "#4A3627" }}
                   />
                 </TableCell>
                 <TableCell align="center">
                   <ArrowUpwardIcon
                     className="updateBarrow"
                     onClick={() => handleUpdateForm(barrow)}
+                    sx={{ color: "#4A3627" }}
                   />
                 </TableCell>
               </TableRow>
@@ -329,7 +424,11 @@ function Barrow() {
           </TableBody>
         </Table>
       </TableContainer>
-      {alert && <h1>{alertMessage}</h1>}
+      {alert && (
+        <Typography variant="h6" sx={{ color: "#4A3627", textAlign: "center", mt: 2 }}>
+          {alertMessage}
+        </Typography>
+      )}
     </div>
   );
 }
