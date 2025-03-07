@@ -1,4 +1,4 @@
-import { Button, Typography, TextField, InputLabel, Select, MenuItem } from "@mui/material";
+import { Button, Typography, TextField, MenuItem } from "@mui/material";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Table from "@mui/material/Table";
@@ -182,9 +182,6 @@ function Book() {
               "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {authors?.map((author) => (
               <MenuItem key={author.id} value={author.id}>
                 {author.name}
@@ -214,9 +211,6 @@ function Book() {
               "& .MuiInputLabel-root": { color: "#8B6F47" },
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {publishers?.map((publisher) => (
               <MenuItem key={publisher.id} value={publisher.id}>
                 {publisher.name}
@@ -352,9 +346,6 @@ function Book() {
               "& .MuiInputLabel-root": { color: "#8B6F47" },
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {authors?.map((author) => (
               <MenuItem key={author.id} value={author.id}>
                 {author.name}
@@ -384,9 +375,6 @@ function Book() {
               "& .MuiInputLabel-root": { color: "#8B6F47" },
             }}
           >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
             {publishers?.map((publisher) => (
               <MenuItem key={publisher.id} value={publisher.id}>
                 {publisher.name}
