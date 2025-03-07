@@ -59,7 +59,7 @@ function Category() {
   // Kategori silme işlemi
   const handleCategoryDelete = async (id) => {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BASE_URL }/api/v1/categories/${id}`
+      `${import.meta.env.VITE_BASE_URL}/api/v1/categories/${id}`
     );
     handleAlert(response.data);
     setUpdate(false);
@@ -73,7 +73,7 @@ function Category() {
   // Kategori güncelleme işlemi
   const handleUpdateCategory = async () => {
     await axios.put(
-      `${import.meta.env.VITE_BASE_URL }/api/v1/categories/${updateCategory.id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/v1/categories/${updateCategory.id}`,
       updateCategory
     );
     setUpdateCategory(initialCategory);
@@ -82,9 +82,16 @@ function Category() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "#E8D5B9", // Authors ve Publisher ile uyumlu açık bej-kahve
+        minHeight: "100vh",
+        padding: "20px",
+        color: "#4A3627", // Navbar ile uyumlu koyu kahve yazı
+      }}
+    >
       {/* Yeni kategori ekleme bölümü */}
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Category
       </Typography>
       <div className="newPublisher">
@@ -98,15 +105,28 @@ function Category() {
             onChange={(e) =>
               setNewCategory((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              input: { color: "#4A3627" }, // Koyu kahve yazı
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
+              "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+            }}
           />
         ))}
-        <Button variant="contained" onClick={handleCategoryPost}>
+        <Button
+          variant="contained"
+          onClick={handleCategoryPost}
+          sx={{
+            bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
+            color: "#F5F5DC", // Bej yazı
+            "&:hover": { bgcolor: "#6B4E31" }, // Biraz daha açık kahve hover
+          }}
+        >
           Add New Category
         </Button>
       </div>
 
       {/* Kategori güncelleme bölümü */}
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Update Category
       </Typography>
       <div className="newPublisher">
@@ -120,42 +140,64 @@ function Category() {
             onChange={(e) =>
               setUpdateCategory((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              input: { color: "#4A3627" },
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+              "& .MuiInputLabel-root": { color: "#8B6F47" },
+            }}
           />
         ))}
-        <Button variant="contained" onClick={handleUpdateCategory}>
+        <Button
+          variant="contained"
+          onClick={handleUpdateCategory}
+          sx={{
+            bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
+            color: "#F5F5DC",
+            "&:hover": { bgcolor: "#6B4E31" },
+          }}
+        >
           Update Category
         </Button>
       </div>
 
       {/* Kategori listesi */}
-      <Typography variant="h1" style={{ textAlign: "center", margin: "20px" }}>
-        Category
+      <Typography variant="h1" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
+        Categories
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ bgcolor: "#F5F5DC" }}> {/* Bej, açık ton */}
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Delete</TableCell>
-              <TableCell align="center">Update</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Name</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Description</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Delete</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Update</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {categories?.map((category) => (
-              <TableRow key={category.id}>
-                <TableCell>{category.name}</TableCell>
-                <TableCell align="center">{category.description}</TableCell>
+              <TableRow
+                key={category.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 }, bgcolor: "#FFF5E1" }} // Daha açık bej
+              >
+                <TableCell component="th" scope="row" sx={{ color: "#4A3627" }}>
+                  {category.name}
+                </TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {category.description}
+                </TableCell>
                 <TableCell align="center">
                   <DeleteForeverIcon
                     className="deleteIcon"
                     onClick={() => handleCategoryDelete(category.id)}
+                    sx={{ color: "#4A3627" }}
                   />
                 </TableCell>
                 <TableCell align="center">
                   <ArrowUpwardIcon
-                    className="Publisher"
+                    className="updateCategory"
                     onClick={() => handleUpdateForm(category)}
+                    sx={{ color: "#4A3627" }}
                   />
                 </TableCell>
               </TableRow>
@@ -165,7 +207,11 @@ function Category() {
       </TableContainer>
 
       {/* Bildirim mesajı */}
-      {alert && <h1>{alertMessage}</h1>}
+      {alert && (
+        <Typography variant="h6" sx={{ color: "#4A3627", textAlign: "center", mt: 2 }}>
+          {alertMessage}
+        </Typography>
+      )}
     </div>
   );
 }
