@@ -202,7 +202,7 @@ function Publisher() {
                 key={publisher.id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 }, bgcolor: "#FFF5E1" }} // Daha açık bej
               >
-                <TableCell component="th" scope="row" sx={{ color: "#4A3627" }}>
+                <TableCell align="center" component="th" scope="row" sx={{ color: "#4A3627" }}>
                   {publisher.name}
                 </TableCell>
                 <TableCell align="center" sx={{ color: "#4A3627" }}>
