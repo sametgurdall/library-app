@@ -1,8 +1,8 @@
 import React from "react";
-import { Container, Typography, Box } from "@mui/material";
+import { Container, Typography, Box, Button } from "@mui/material";
+import { Link } from "react-router-dom"; // React Router'dan Link bileşeni import edildi
 import "./Home.css";
 import library from "../../assets/library.jpg";
-import Button from '@mui/material/Button';
 
 function Home() {
   return (
@@ -36,9 +36,14 @@ function Home() {
           <Typography variant="h6" sx={{ color: "white" }}>
             You can do all book, author, and category transactions here.
           </Typography>
-          <Button variant="outlined" href="/book"
-          sx={{ color: "white", borderColor: "white", marginTop: 2 }}
-          >Get Started</Button>
+          <Button
+            component={Link} // Link bileşeni ile butonu entegre ettik
+            to="/book" // React Router için yönlendirme yolu
+            variant="outlined"
+            sx={{ color: "white", borderColor: "white", marginTop: 2 }}
+          >
+            Get Started
+          </Button>
         </Box>
       </Container>
     </Box>
