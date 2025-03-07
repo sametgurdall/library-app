@@ -12,7 +12,7 @@ import Paper from "@mui/material/Paper";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import TextField from "@mui/material/TextField";
-import "./Publisher.css"
+import "./Publisher.css";
 
 // Başlangıç değeri olarak boş bir publisher nesnesi tanımlıyoruz.
 const initialPublisher = {
@@ -62,7 +62,7 @@ function Publisher() {
   // Publisher silme işlemi
   const handlePublisherDelete = async (id) => {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BASE_URL }/api/v1/publishers/${id}`
+      `${import.meta.env.VITE_BASE_URL}/api/v1/publishers/${id}`
     );
     handleAlert(response.data);
     setUpdate(false);
@@ -76,7 +76,7 @@ function Publisher() {
   // Publisher güncelleme işlemi
   const handleUpdatePublisher = async () => {
     const response = await axios.put(
-      `${import.meta.env.VITE_BASE_URL }/api/v1/publishers/${updatePublisher.id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/v1/publishers/${updatePublisher.id}`,
       updatePublisher
     );
     setUpdatePublisher(initialPublisher);
@@ -85,9 +85,16 @@ function Publisher() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "#E8D5B9", // Authors ile uyumlu açık bej-kahve
+        minHeight: "100vh",
+        padding: "20px",
+        color: "#4A3627", // Navbar ile uyumlu koyu kahve yazı
+      }}
+    >
       {/* Yeni publisher ekleme formu */}
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Publisher
       </Typography>
       <div className="newPublisher">
@@ -96,27 +103,42 @@ function Publisher() {
             key={key}
             id="standard-basic"
             type={key === "establishmentYear" ? "number" : "text"}
-            label={key === "name"
-              ? "Name"
-              : key === "establishmentYear"
-              ? "Establishment Year"
-              : key === "address"
-              ? "Address"
-              : ""}
+            label={
+              key === "name"
+                ? "Name"
+                : key === "establishmentYear"
+                ? "Establishment Year"
+                : key === "address"
+                ? "Address"
+                : ""
+            }
             variant="standard"
             value={newPublisher[key]}
             onChange={(e) =>
               setNewPublisher((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              input: { color: "#4A3627" }, // Koyu kahve yazı
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
+              "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+            }}
           />
         ))}
-        <Button variant="contained" onClick={handlePublisherPost}>
+        <Button
+          variant="contained"
+          onClick={handlePublisherPost}
+          sx={{
+            bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
+            color: "#F5F5DC", // Bej yazı
+            "&:hover": { bgcolor: "#6B4E31" }, // Biraz daha açık kahve hover
+          }}
+        >
           Add New Publisher
         </Button>
       </div>
 
       {/* Publisher güncelleme formu */}
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Update Publisher
       </Typography>
       <div className="newPublisher">
@@ -125,58 +147,94 @@ function Publisher() {
             key={key}
             id="standard-basic"
             type={key === "establishmentYear" ? "number" : "text"}
-            label={key === "name"
-              ? "Name"
-              : key === "establishmentYear"
-              ? "Establishment Year"
-              : key === "address"
-              ? "Address"
-              : ""}
+            label={
+              key === "name"
+                ? "Name"
+                : key === "establishmentYear"
+                ? "Establishment Year"
+                : key === "address"
+                ? "Address"
+                : ""
+            }
             variant="standard"
             value={updatePublisher[key]}
             onChange={(e) =>
               setUpdatePublisher((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              input: { color: "#4A3627" },
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+              "& .MuiInputLabel-root": { color: "#8B6F47" },
+            }}
           />
         ))}
-        <Button variant="contained" onClick={handleUpdatePublisher}>
+        <Button
+          variant="contained"
+          onClick={handleUpdatePublisher}
+          sx={{
+            bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
+            color: "#F5F5DC",
+            "&:hover": { bgcolor: "#6B4E31" },
+          }}
+        >
           Update Publisher
         </Button>
       </div>
 
       {/* Publisher listesi */}
-      <Typography variant="h1" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h1" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Publishers
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ bgcolor: "#F5F5DC" }}> {/* Bej, açık ton */}
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="center">Establishment Year</TableCell>
-              <TableCell align="center">Address</TableCell>
-              <TableCell align="center">Delete</TableCell>
-              <TableCell align="center">Update</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Name</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Establishment Year</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Address</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Delete</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Update</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {publishers?.map((publisher) => (
-              <TableRow key={publisher.id}>
-                <TableCell>{publisher.name}</TableCell>
-                <TableCell align="center">{publisher.establishmentYear}</TableCell>
-                <TableCell align="center">{publisher.address}</TableCell>
-                <TableCell align="center">
-                  <DeleteForeverIcon className="deleteIcon" onClick={() => handlePublisherDelete(publisher.id)} />
+              <TableRow
+                key={publisher.id}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 }, bgcolor: "#FFF5E1" }} // Daha açık bej
+              >
+                <TableCell component="th" scope="row" sx={{ color: "#4A3627" }}>
+                  {publisher.name}
+                </TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {publisher.establishmentYear}
+                </TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {publisher.address}
                 </TableCell>
                 <TableCell align="center">
-                  <ArrowUpwardIcon onClick={() => handleUpdateForm(publisher)} />
+                  <DeleteForeverIcon
+                    className="deleteIcon"
+                    onClick={() => handlePublisherDelete(publisher.id)}
+                    sx={{ color: "#4A3627" }}
+                  />
+                </TableCell>
+                <TableCell align="center">
+                  <ArrowUpwardIcon
+                    className="updateAuthor"
+                    onClick={() => handleUpdateForm(publisher)}
+                    sx={{ color: "#4A3627" }}
+                  />
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      {alert && <h1>{alertMessage}</h1>}
+      {alert && (
+        <Typography variant="h6" sx={{ color: "#4A3627", textAlign: "center", mt: 2 }}>
+          {alertMessage}
+        </Typography>
+      )}
     </div>
   );
 }
