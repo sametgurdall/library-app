@@ -14,7 +14,6 @@ import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import TextField from "@mui/material/TextField";
 import "./Authors.css";
 
-// Başlangıçta boş bir yazar nesnesi tanımlanıyor
 const initialAuthor = {
   name: "",
   birthDate: "",
@@ -22,7 +21,6 @@ const initialAuthor = {
 };
 
 function Authors() {
-  // State değişkenleri tanımlanıyor
   const [newAuthor, setNewAuthor] = useState(initialAuthor);
   const [updateAuthor, setUpdateAuthor] = useState(initialAuthor);
   const [authors, setAuthors] = useState(null);
@@ -30,27 +28,22 @@ function Authors() {
   const [alert, setAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  // Sayfa yüklendiğinde veya update değiştiğinde yazarları çekme işlemi
   useEffect(() => {
     const request = async () => {
       const res = await axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/authors");
       setAuthors(res.data);
-      console.log(res.data);
       setUpdate(true);
     };
     request();
   }, [update]);
 
-  // Yeni yazar ekleme işlemi
   const handleAuthorPost = async () => {
     await axios.post(import.meta.env.VITE_BASE_URL + "/api/v1/authors", newAuthor);
     setUpdate(false);
     setNewAuthor(initialAuthor);
     handleAlert("Author Added");
-    console.log(newAuthor);
   };
 
-  // Kullanıcıya mesaj göstermek için alert fonksiyonu
   const handleAlert = (alertM) => {
     setAlertMessage(alertM);
     setAlert(true);
@@ -59,24 +52,21 @@ function Authors() {
     }, 3000);
   };
 
-  // Yazar silme işlemi
   const handleAuthorDelete = async (id) => {
     const response = await axios.delete(
-      `${import.meta.env.VITE_BASE_URL }/api/v1/authors/${id}`
+      `${import.meta.env.VITE_BASE_URL}/api/v1/authors/${id}`
     );
     handleAlert(response.data);
     setUpdate(false);
   };
 
-  // Güncelleme formuna yazar bilgilerini ekleme işlemi
   const handleUpdateForm = (author) => {
     setUpdateAuthor(author);
   };
 
-  // Yazar güncelleme işlemi
   const handleUpdateAuthor = async () => {
     const response = await axios.put(
-      `${import.meta.env.VITE_BASE_URL }/api/v1/authors/${updateAuthor.id}`,
+      `${import.meta.env.VITE_BASE_URL}/api/v1/authors/${updateAuthor.id}`,
       updateAuthor
     );
     setUpdateAuthor(initialAuthor);
@@ -85,9 +75,16 @@ function Authors() {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: "#E8D5B9", // Açık bej-kahve, Navbar’dan daha açık
+        minHeight: "100vh",
+        padding: "20px",
+        color: "#4A3627", // Navbar ile uyumlu koyu kahve yazı
+      }}
+    >
       {/* Yeni yazar ekleme alanı */}
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Authors
       </Typography>
       <div className="newAuthor">
@@ -96,30 +93,44 @@ function Authors() {
             key={key}
             id="standard-basic"
             type={key === "birthDate" ? "date" : "text"}
-            label={key === "name"
+            label={
+              key === "name"
                 ? "Name"
                 : key === "birthDate"
                 ? " "
                 : key === "country"
                 ? "Country"
-                : ""}
+                : ""
+            }
             variant="standard"
             value={newAuthor[key]}
             onChange={(e) =>
               setNewAuthor((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              input: { color: "#4A3627" }, // Koyu kahve yazı
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
+              "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+            }}
           />
         ))}
-        <Button variant="contained" onClick={handleAuthorPost}>
+        <Button
+          variant="contained"
+          onClick={handleAuthorPost}
+          sx={{
+            bgcolor: "#4A3627", // Navbar ile aynı koyu kahve
+            color: "#F5F5DC", // Bej yazı
+            "&:hover": { bgcolor: "#6B4E31" }, // Biraz daha açık kahve hover
+          }}
+        >
           Add New Author
         </Button>
       </div>
 
       {/* Yazar güncelleme alanı */}
-      <Typography variant="h4" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h4" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Update Author
       </Typography>
-
       <div className="newAuthor">
         {Object.keys(initialAuthor).map((key) => (
           <TextField
@@ -132,49 +143,68 @@ function Authors() {
             onChange={(e) =>
               setUpdateAuthor((prev) => ({ ...prev, [key]: e.target.value }))
             }
+            sx={{
+              input: { color: "#4A3627" },
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+              "& .MuiInputLabel-root": { color: "#8B6F47" },
+            }}
           />
         ))}
-        <Button variant="contained" onClick={handleUpdateAuthor}>
+        <Button
+          variant="contained"
+          onClick={handleUpdateAuthor}
+          sx={{
+            bgcolor: "#4A3627", // Navbar ile aynı koyu kahve
+            color: "#F5F5DC",
+            "&:hover": { bgcolor: "#6B4E31" },
+          }}
+        >
           Update Author
         </Button>
       </div>
 
       {/* Yazarları listeleme alanı */}
-      <Typography variant="h1" style={{ textAlign: "center", margin: "20px" }}>
+      <Typography variant="h1" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Authors
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ bgcolor: "#F5F5DC" }}> {/* Bej, açık ton */}
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell align="center">Birth Date</TableCell>
-              <TableCell align="center">Country</TableCell>
-              <TableCell align="center">Delete</TableCell>
-              <TableCell align="center">Update</TableCell>
+              <TableCell sx={{ color: "#4A3627" }}>Name</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Birth Date</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Country</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Delete</TableCell>
+              <TableCell align="center" sx={{ color: "#4A3627" }}>Update</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {authors?.map((author) => (
               <TableRow
                 key={author.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 }, bgcolor: "#FFF5E1" }} // Daha açık bej
               >
-                <TableCell component="th" scope="row">
+                <TableCell component="th" scope="row" sx={{ color: "#4A3627" }}>
                   {author.name}
                 </TableCell>
-                <TableCell align="center">{author.birthDate}</TableCell>
-                <TableCell align="center">{author.country}</TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {author.birthDate}
+                </TableCell>
+                <TableCell align="center" sx={{ color: "#4A3627" }}>
+                  {author.country}
+                </TableCell>
                 <TableCell align="center">
                   <DeleteForeverIcon
                     className="deleteIcon"
                     onClick={() => handleAuthorDelete(author.id)}
+                    sx={{ color: "#4A3627" }}
                   />
                 </TableCell>
                 <TableCell align="center">
                   <ArrowUpwardIcon
                     className="updateAuthor"
                     onClick={() => handleUpdateForm(author)}
+                    sx={{ color: "#4A3627" }}
                   />
                 </TableCell>
               </TableRow>
@@ -182,7 +212,11 @@ function Authors() {
           </TableBody>
         </Table>
       </TableContainer>
-      {alert && <h1>{alertMessage}</h1>}
+      {alert && (
+        <Typography variant="h6" sx={{ color: "#4A3627", textAlign: "center", mt: 2 }}>
+          {alertMessage}
+        </Typography>
+      )}
     </div>
   );
 }
