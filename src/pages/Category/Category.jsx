@@ -94,7 +94,16 @@ function Category() {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Category
       </Typography>
-      <div className="newPublisher">
+      <div
+        className="newCategory"
+        style={{
+          display: "flex",
+          flexWrap: "wrap", // Küçük ekranlarda öğeler alt alta gelir
+          gap: "16px", // Öğeler arasında boşluk
+          justifyContent: "center", // Öğeleri ortalar
+          marginBottom: "20px",
+        }}
+      >
         {Object.keys(initialCategory).map((key) => (
           <TextField
             key={key}
@@ -106,6 +115,9 @@ function Category() {
               setNewCategory((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
+              flex: "1 1 200px", // Esnek genişlik, minimum 200px
+              maxWidth: "100%", // Taşmayı engeller
+              "& .MuiInputBase-root": { height: 32 }, // Yükseklik
               input: { color: "#4A3627" }, // Koyu kahve yazı
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
               "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
@@ -116,6 +128,8 @@ function Category() {
           variant="contained"
           onClick={handleCategoryPost}
           sx={{
+            flex: "1 1 200px", // Buton da esnek genişlikte
+            maxWidth: "100%",
             bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
             color: "#F5F5DC", // Bej yazı
             "&:hover": { bgcolor: "#6B4E31" }, // Biraz daha açık kahve hover
@@ -129,7 +143,16 @@ function Category() {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Update Category
       </Typography>
-      <div className="newPublisher">
+      <div
+        className="newCategory"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "16px",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
         {Object.keys(initialCategory).map((key) => (
           <TextField
             key={key}
@@ -141,6 +164,9 @@ function Category() {
               setUpdateCategory((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
+              flex: "1 1 200px",
+              maxWidth: "100%",
+              "& .MuiInputBase-root": { height: 32 },
               input: { color: "#4A3627" },
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
               "& .MuiInputLabel-root": { color: "#8B6F47" },
@@ -151,6 +177,8 @@ function Category() {
           variant="contained"
           onClick={handleUpdateCategory}
           sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
             bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
             color: "#F5F5DC",
             "&:hover": { bgcolor: "#6B4E31" },
