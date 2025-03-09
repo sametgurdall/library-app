@@ -44,13 +44,12 @@ function Book() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [booksRes, authorsRes, publishersRes, categoriesRes] =
-          await Promise.all([
-            axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/books"),
-            axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/authors"),
-            axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/publishers"),
-            axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/categories"),
-          ]);
+        const [booksRes, authorsRes, publishersRes, categoriesRes] = await Promise.all([
+          axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/books"),
+          axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/authors"),
+          axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/publishers"),
+          axios.get(import.meta.env.VITE_BASE_URL + "/api/v1/categories"),
+        ]);
         setBooks(booksRes.data);
         setAuthors(authorsRes.data);
         setPublishers(publishersRes.data);
@@ -138,7 +137,16 @@ function Book() {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Book
       </Typography>
-      <div className="newDoctor">
+      <div
+        className="newBook"
+        style={{
+          display: "flex",
+          flexWrap: "wrap", // Küçük ekranlarda öğeler alt alta gelir
+          gap: "16px", // Öğeler arasında boşluk
+          justifyContent: "center", // Öğeleri ortalar
+          marginBottom: "20px",
+        }}
+      >
         {/* TextField ile render edilen alanlar */}
         {["name", "publicationYear", "stock"].map((key) => (
           <TextField
@@ -152,7 +160,8 @@ function Book() {
               setNewBook((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
-              width: 182, // Genişlik
+              flex: "1 1 200px", // Esnek genişlik, minimum 200px
+              maxWidth: "100%", // Taşmayı engeller
               "& .MuiInputBase-root": { height: 32 }, // Yükseklik
               input: { color: "#4A3627" }, // Koyu kahve yazı
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
@@ -162,99 +171,107 @@ function Book() {
         ))}
 
         {/* Author için select */}
-        <div key="author-select">
-          <TextField
-            select
-            label="Author"
-            value={newBook.author.id || ""}
-            onChange={(e) =>
-              setNewBook((prev) => ({
-                ...prev,
-                author: { id: e.target.value },
-              }))
-            }
-            variant="standard"
-            sx={{
-              width: 182, // TextField ile aynı genişlik
-              "& .MuiInputBase-root": { height: 32 }, // TextField ile aynı yükseklik
-              "& .MuiInputBase-input": { color: "#4A3627" }, // Koyu kahve yazı
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
-              "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
-            }}
-          >
-            {authors?.map((author) => (
-              <MenuItem key={author.id} value={author.id}>
-                {author.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Author"
+          value={newBook.author.id || ""}
+          onChange={(e) =>
+            setNewBook((prev) => ({
+              ...prev,
+              author: { id: e.target.value },
+            }))
+          }
+          variant="standard"
+          sx={{
+            flex: "1 1 200px", // Diğer inputlarla aynı esnek genişlik
+            maxWidth: "100%", // Taşmayı engeller
+            "& .MuiInputBase-root": { height: 32 }, // Yükseklik eşitleme
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627", // Koyu kahve yazı
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
+            "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+          }}
+        >
+          {authors?.map((author) => (
+            <MenuItem key={author.id} value={author.id}>
+              {author.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         {/* Publisher için select */}
-        <div key="publisher-select">
-          <TextField
-            select
-            label="Publisher"
-            value={newBook.publisher.id || ""}
-            onChange={(e) =>
-              setNewBook((prev) => ({
-                ...prev,
-                publisher: { id: e.target.value },
-              }))
-            }
-            variant="standard"
-            sx={{
-              width: 182,
-              "& .MuiInputBase-root": { height: 32 },
-              "& .MuiInputBase-input": { color: "#4A3627" },
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
-              "& .MuiInputLabel-root": { color: "#8B6F47" },
-            }}
-          >
-            {publishers?.map((publisher) => (
-              <MenuItem key={publisher.id} value={publisher.id}>
-                {publisher.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Publisher"
+          value={newBook.publisher.id || ""}
+          onChange={(e) =>
+            setNewBook((prev) => ({
+              ...prev,
+              publisher: { id: e.target.value },
+            }))
+          }
+          variant="standard"
+          sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
+            "& .MuiInputBase-root": { height: 32 },
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627",
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
+        >
+          {publishers?.map((publisher) => (
+            <MenuItem key={publisher.id} value={publisher.id}>
+              {publisher.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         {/* Categories için select */}
-        <div key="categories-select">
-          <TextField
-            select
-            label="Categories"
-            value={newBook.categories}
-            onChange={(e) =>
-              setNewBook((prev) => ({
-                ...prev,
-                categories: e.target.value,
-              }))
-            }
-            variant="standard"
-            SelectProps={{
-              multiple: true,
-            }}
-            sx={{
-              width: 182,
-              "& .MuiInputBase-root": { height: 32 },
-              "& .MuiInputBase-input": { color: "#4A3627" },
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
-              "& .MuiInputLabel-root": { color: "#8B6F47" },
-            }}
-          >
-            {categories?.map((category) => (
-              <MenuItem key={category.id} value={category.id}>
-                {category.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Categories"
+          value={newBook.categories}
+          onChange={(e) =>
+            setNewBook((prev) => ({
+              ...prev,
+              categories: e.target.value,
+            }))
+          }
+          variant="standard"
+          SelectProps={{
+            multiple: true,
+          }}
+          sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
+            "& .MuiInputBase-root": { height: 32 },
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627",
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
+        >
+          {categories?.map((category) => (
+            <MenuItem key={category.id} value={category.id}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <Button
           variant="contained"
           onClick={handleBookPost}
           sx={{
+            flex: "1 1 200px", // Buton da esnek genişlikte
+            maxWidth: "100%",
             bgcolor: "#4A3627", // Koyu kahve buton
             color: "#F5F5DC", // Bej yazı
             "&:hover": { bgcolor: "#6B4E31" }, // Hover için açık kahve
@@ -268,7 +285,16 @@ function Book() {
         Update Book
       </Typography>
 
-      <div className="newDoctor">
+      <div
+        className="newBook"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "16px",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
         {/* TextField'lar: name, publicationYear, stock */}
         <TextField
           autoComplete="off"
@@ -280,7 +306,8 @@ function Book() {
             setUpdateBook((prev) => ({ ...prev, name: e.target.value }))
           }
           sx={{
-            width: 182,
+            flex: "1 1 200px",
+            maxWidth: "100%",
             "& .MuiInputBase-root": { height: 32 },
             input: { color: "#4A3627" },
             "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -300,7 +327,8 @@ function Book() {
             }))
           }
           sx={{
-            width: 182,
+            flex: "1 1 200px",
+            maxWidth: "100%",
             "& .MuiInputBase-root": { height: 32 },
             input: { color: "#4A3627" },
             "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -317,7 +345,8 @@ function Book() {
             setUpdateBook((prev) => ({ ...prev, stock: e.target.value }))
           }
           sx={{
-            width: 182,
+            flex: "1 1 200px",
+            maxWidth: "100%",
             "& .MuiInputBase-root": { height: 32 },
             input: { color: "#4A3627" },
             "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -326,103 +355,111 @@ function Book() {
         />
 
         {/* Update: Author select */}
-        <div key="update-author-select">
-          <TextField
-            select
-            label="Author"
-            value={updateBook.author?.id || ""}
-            onChange={(e) =>
-              setUpdateBook((prev) => ({
-                ...prev,
-                author: { id: e.target.value },
-              }))
-            }
-            variant="standard"
-            sx={{
-              width: 182,
-              "& .MuiInputBase-root": { height: 32 },
-              "& .MuiInputBase-input": { color: "#4A3627" },
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
-              "& .MuiInputLabel-root": { color: "#8B6F47" },
-            }}
-          >
-            {authors?.map((author) => (
-              <MenuItem key={author.id} value={author.id}>
-                {author.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Author"
+          value={updateBook.author?.id || ""}
+          onChange={(e) =>
+            setUpdateBook((prev) => ({
+              ...prev,
+              author: { id: e.target.value },
+            }))
+          }
+          variant="standard"
+          sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
+            "& .MuiInputBase-root": { height: 32 },
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627",
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
+        >
+          {authors?.map((author) => (
+            <MenuItem key={author.id} value={author.id}>
+              {author.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         {/* Update: Publisher select */}
-        <div key="update-publisher-select">
-          <TextField
-            select
-            label="Publisher"
-            value={updateBook.publisher?.id || ""}
-            onChange={(e) =>
-              setUpdateBook((prev) => ({
-                ...prev,
-                publisher: { id: e.target.value },
-              }))
-            }
-            variant="standard"
-            sx={{
-              width: 182,
-              "& .MuiInputBase-root": { height: 32 },
-              "& .MuiInputBase-input": { color: "#4A3627" },
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
-              "& .MuiInputLabel-root": { color: "#8B6F47" },
-            }}
-          >
-            {publishers?.map((publisher) => (
-              <MenuItem key={publisher.id} value={publisher.id}>
-                {publisher.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Publisher"
+          value={updateBook.publisher?.id || ""}
+          onChange={(e) =>
+            setUpdateBook((prev) => ({
+              ...prev,
+              publisher: { id: e.target.value },
+            }))
+          }
+          variant="standard"
+          sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
+            "& .MuiInputBase-root": { height: 32 },
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627",
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
+        >
+          {publishers?.map((publisher) => (
+            <MenuItem key={publisher.id} value={publisher.id}>
+              {publisher.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         {/* Update: Categories select */}
-        <div key="update-categories-select">
-          <TextField
-            select
-            label="Categories"
-            value={
-              updateBook.categories && updateBook.categories.length > 0
-                ? updateBook.categories.map((cat) => cat.id)
-                : []
-            }
-            onChange={(e) =>
-              setUpdateBook((prev) => ({
-                ...prev,
-                categories: e.target.value.map((val) => ({ id: val })),
-              }))
-            }
-            variant="standard"
-            SelectProps={{
-              multiple: true,
-            }}
-            sx={{
-              width: 182,
-              "& .MuiInputBase-root": { height: 32 },
-              "& .MuiInputBase-input": { color: "#4A3627" },
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
-              "& .MuiInputLabel-root": { color: "#8B6F47" },
-            }}
-          >
-            {categories?.map((category) => (
-              <MenuItem key={category.id} value={category.id}>
-                {category.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Categories"
+          value={
+            updateBook.categories && updateBook.categories.length > 0
+              ? updateBook.categories.map((cat) => cat.id)
+              : []
+          }
+          onChange={(e) =>
+            setUpdateBook((prev) => ({
+              ...prev,
+              categories: e.target.value.map((val) => ({ id: val })),
+            }))
+          }
+          variant="standard"
+          SelectProps={{
+            multiple: true,
+          }}
+          sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
+            "& .MuiInputBase-root": { height: 32 },
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627",
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+            "& .MuiInputLabel-root": { color: "#8B6F47" },
+          }}
+        >
+          {categories?.map((category) => (
+            <MenuItem key={category.id} value={category.id}>
+              {category.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <Button
           variant="contained"
           onClick={handleUpdateBook}
           sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
             bgcolor: "#4A3627",
             color: "#F5F5DC",
             "&:hover": { bgcolor: "#6B4E31" },
@@ -484,7 +521,7 @@ function Book() {
                 </TableCell>
                 <TableCell align="center">
                   <ArrowUpwardIcon
-                    className="updateDoctor"
+                    className="updateBook"
                     onClick={() => handleUpdateForm(book)}
                     sx={{ color: "#4A3627" }}
                   />
