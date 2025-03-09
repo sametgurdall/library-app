@@ -97,7 +97,16 @@ function Publisher() {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Publisher
       </Typography>
-      <div className="newPublisher">
+      <div
+        className="newPublisher"
+        style={{
+          display: "flex",
+          flexWrap: "wrap", // Küçük ekranlarda öğeler alt alta gelir
+          gap: "16px", // Öğeler arasında boşluk
+          justifyContent: "center", // Öğeleri ortalar
+          marginBottom: "20px",
+        }}
+      >
         {Object.keys(initialPublisher).map((key) => (
           <TextField
             key={key}
@@ -118,6 +127,9 @@ function Publisher() {
               setNewPublisher((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
+              flex: "1 1 200px", // Esnek genişlik, minimum 200px
+              maxWidth: "100%", // Taşmayı engeller
+              "& .MuiInputBase-root": { height: 32 }, // Yükseklik
               input: { color: "#4A3627" }, // Koyu kahve yazı
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
               "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
@@ -128,6 +140,8 @@ function Publisher() {
           variant="contained"
           onClick={handlePublisherPost}
           sx={{
+            flex: "1 1 200px", // Buton da esnek genişlikte
+            maxWidth: "100%",
             bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
             color: "#F5F5DC", // Bej yazı
             "&:hover": { bgcolor: "#6B4E31" }, // Biraz daha açık kahve hover
@@ -141,7 +155,16 @@ function Publisher() {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Update Publisher
       </Typography>
-      <div className="newPublisher">
+      <div
+        className="newPublisher"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "16px",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
         {Object.keys(initialPublisher).map((key) => (
           <TextField
             key={key}
@@ -162,6 +185,9 @@ function Publisher() {
               setUpdatePublisher((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
+              flex: "1 1 200px",
+              maxWidth: "100%",
+              "& .MuiInputBase-root": { height: 32 },
               input: { color: "#4A3627" },
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
               "& .MuiInputLabel-root": { color: "#8B6F47" },
@@ -172,6 +198,8 @@ function Publisher() {
           variant="contained"
           onClick={handleUpdatePublisher}
           sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
             bgcolor: "#4A3627", // Navbar ile uyumlu koyu kahve
             color: "#F5F5DC",
             "&:hover": { bgcolor: "#6B4E31" },
