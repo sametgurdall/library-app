@@ -77,17 +77,26 @@ function Authors() {
   return (
     <div
       style={{
-        backgroundColor: "#E8D5B9", // Açık bej-kahve, Navbar’dan daha açık
+        backgroundColor: "#E8D5B9",
         minHeight: "100vh",
         padding: "20px",
-        color: "#4A3627", // Navbar ile uyumlu koyu kahve yazı
+        color: "#4A3627",
       }}
     >
       {/* Yeni yazar ekleme alanı */}
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Authors
       </Typography>
-      <div className="newAuthor">
+      <div
+        className="newAuthor"
+        style={{
+          display: "flex",
+          flexWrap: "wrap", // Küçük ekranlarda öğeler alt alta gelir
+          gap: "16px", // Öğeler arasında boşluk
+          justifyContent: "center", // Öğeleri ortalar
+          marginBottom: "20px",
+        }}
+      >
         {Object.keys(initialAuthor).map((key) => (
           <TextField
             key={key}
@@ -108,9 +117,12 @@ function Authors() {
               setNewAuthor((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
-              input: { color: "#4A3627" }, // Koyu kahve yazı
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
-              "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+              flex: "1 1 200px", // Esnek genişlik, minimum 200px
+              maxWidth: "100%", // Taşmayı engeller
+              "& .MuiInputBase-root": { height: 32 },
+              input: { color: "#4A3627" },
+              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
+              "& .MuiInputLabel-root": { color: "#8B6F47" },
             }}
           />
         ))}
@@ -118,9 +130,11 @@ function Authors() {
           variant="contained"
           onClick={handleAuthorPost}
           sx={{
-            bgcolor: "#4A3627", // Navbar ile aynı koyu kahve
-            color: "#F5F5DC", // Bej yazı
-            "&:hover": { bgcolor: "#6B4E31" }, // Biraz daha açık kahve hover
+            flex: "1 1 200px", // Buton da esnek genişlikte
+            maxWidth: "100%",
+            bgcolor: "#4A3627",
+            color: "#F5F5DC",
+            "&:hover": { bgcolor: "#6B4E31" },
           }}
         >
           Add New Author
@@ -131,7 +145,16 @@ function Authors() {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Update Author
       </Typography>
-      <div className="newAuthor">
+      <div
+        className="newAuthor"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "16px",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
         {Object.keys(initialAuthor).map((key) => (
           <TextField
             key={key}
@@ -144,6 +167,9 @@ function Authors() {
               setUpdateAuthor((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
+              flex: "1 1 200px",
+              maxWidth: "100%",
+              "& .MuiInputBase-root": { height: 32 },
               input: { color: "#4A3627" },
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
               "& .MuiInputLabel-root": { color: "#8B6F47" },
@@ -154,7 +180,9 @@ function Authors() {
           variant="contained"
           onClick={handleUpdateAuthor}
           sx={{
-            bgcolor: "#4A3627", // Navbar ile aynı koyu kahve
+            flex: "1 1 200px",
+            maxWidth: "100%",
+            bgcolor: "#4A3627",
             color: "#F5F5DC",
             "&:hover": { bgcolor: "#6B4E31" },
           }}
@@ -167,7 +195,7 @@ function Authors() {
       <Typography variant="h1" sx={{ textAlign: "center", mb: 3, mt: 4, color: "#4A3627" }}>
         Authors
       </Typography>
-      <TableContainer component={Paper} sx={{ bgcolor: "#F5F5DC" }}> {/* Bej, açık ton */}
+      <TableContainer component={Paper} sx={{ bgcolor: "#F5F5DC" }}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -182,7 +210,7 @@ function Authors() {
             {authors?.map((author) => (
               <TableRow
                 key={author.id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 }, bgcolor: "#FFF5E1" }} // Daha açık bej
+                sx={{ "&:last-child td, &:last-child th": { border: 0 }, bgcolor: "#FFF5E1" }}
               >
                 <TableCell align="center" component="th" scope="row" sx={{ color: "#4A3627" }}>
                   {author.name}
