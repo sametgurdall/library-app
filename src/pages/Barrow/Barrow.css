@@ -27,3 +27,10 @@
 .updateBarrow:hover {
     color: darkred;
 }
+
+.newBarrow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
+  }

@@ -147,7 +147,16 @@ function Barrow() {
       <Typography variant="h4" sx={{ textAlign: "center", mb: 3, color: "#4A3627" }}>
         New Barrow
       </Typography>
-      <div className="newBarrow">
+      <div
+        className="newBarrow"
+        style={{
+          display: "flex",
+          flexWrap: "wrap", // Küçük ekranlarda öğeler alt alta gelir
+          gap: "16px", // Öğeler arasında boşluk
+          justifyContent: "center", // Öğeleri ortalar
+          marginBottom: "20px",
+        }}
+      >
         {["borrowerName", "borrowerMail"].map((key) => (
           <TextField
             key={key}
@@ -160,7 +169,8 @@ function Barrow() {
               setNewBarrow((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
-              width: 182, // Genişlik
+              flex: "1 1 200px", // Esnek genişlik, minimum 200px
+              maxWidth: "100%", // Taşmayı engeller
               "& .MuiInputBase-root": { height: 32 }, // Yükseklik
               input: { color: "#4A3627" }, // Koyu kahve yazı
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
@@ -181,7 +191,8 @@ function Barrow() {
             setNewBarrow((prev) => ({ ...prev, borrowingDate: e.target.value }))
           }
           sx={{
-            width: 182,
+            flex: "1 1 200px",
+            maxWidth: "100%",
             "& .MuiInputBase-root": { height: 32 },
             input: { color: "#4A3627" },
             "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -201,7 +212,8 @@ function Barrow() {
             setNewBarrow((prev) => ({ ...prev, returnDate: e.target.value }))
           }
           sx={{
-            width: 182,
+            flex: "1 1 200px",
+            maxWidth: "100%",
             "& .MuiInputBase-root": { height: 32 },
             input: { color: "#4A3627" },
             "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -210,38 +222,42 @@ function Barrow() {
         />
 
         {/* Book için select */}
-        <div key="book-select">
-          <TextField
-            select
-            label="Book"
-            value={newBarrow.book.id || ""}
-            onChange={(e) =>
-              setNewBarrow((prev) => ({
-                ...prev,
-                book: { id: e.target.value },
-              }))
-            }
-            variant="standard"
-            sx={{
-              width: 182,
-              "& .MuiInputBase-root": { height: 32 },
-              "& .MuiInputBase-input": { color: "#4A3627" },
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
-              "& .MuiInputLabel-root": { color: "#8B6F47" },
-            }}
-          >
-            {books?.map((book) => (
-              <MenuItem key={book.id} value={book.id}>
-                {book.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Book"
+          value={newBarrow.book.id || ""}
+          onChange={(e) =>
+            setNewBarrow((prev) => ({
+              ...prev,
+              book: { id: e.target.value },
+            }))
+          }
+          variant="standard"
+          sx={{
+            flex: "1 1 200px", // Diğer inputlarla aynı esnek genişlik
+            maxWidth: "100%", // Taşmayı engeller
+            "& .MuiInputBase-root": { height: 32 }, // Yükseklik eşitleme
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627", // Koyu kahve yazı
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
+            "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+          }}
+        >
+          {books?.map((book) => (
+            <MenuItem key={book.id} value={book.id}>
+              {book.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <Button
           variant="contained"
           onClick={handleBarrowPost}
           sx={{
+            flex: "1 1 200px", // Buton da esnek genişlikte
+            maxWidth: "100%",
             bgcolor: "#4A3627", // Koyu kahve buton
             color: "#F5F5DC", // Bej yazı
             "&:hover": { bgcolor: "#6B4E31" }, // Hover için açık kahve
@@ -255,7 +271,16 @@ function Barrow() {
         Update Barrow
       </Typography>
 
-      <div className="newBarrow">
+      <div
+        className="newBarrow"
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "16px",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
         {["borrowerName", "borrowerMail"].map((key) => (
           <TextField
             key={key}
@@ -268,7 +293,8 @@ function Barrow() {
               setUpdateBarrow((prev) => ({ ...prev, [key]: e.target.value }))
             }
             sx={{
-              width: 182,
+              flex: "1 1 200px",
+              maxWidth: "100%",
               "& .MuiInputBase-root": { height: 32 },
               input: { color: "#4A3627" },
               "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -292,7 +318,8 @@ function Barrow() {
             }))
           }
           sx={{
-            width: 182,
+            flex: "1 1 200px",
+            maxWidth: "100%",
             "& .MuiInputBase-root": { height: 32 },
             input: { color: "#4A3627" },
             "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -312,7 +339,8 @@ function Barrow() {
             setUpdateBarrow((prev) => ({ ...prev, returnDate: e.target.value }))
           }
           sx={{
-            width: 182,
+            flex: "1 1 200px",
+            maxWidth: "100%",
             "& .MuiInputBase-root": { height: 32 },
             input: { color: "#4A3627" },
             "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
@@ -321,38 +349,42 @@ function Barrow() {
         />
 
         {/* Update: Book select */}
-        <div key="update-book-select">
-          <TextField
-            select
-            label="Book"
-            value={updateBarrow.book?.id || ""}
-            onChange={(e) =>
-              setUpdateBarrow((prev) => ({
-                ...prev,
-                book: { id: e.target.value },
-              }))
-            }
-            variant="standard"
-            sx={{
-              width: 182,
-              "& .MuiInputBase-root": { height: 32 },
-              "& .MuiInputBase-input": { color: "#4A3627" },
-              "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" },
-              "& .MuiInputLabel-root": { color: "#8B6F47" },
-            }}
-          >
-            {books?.map((book) => (
-              <MenuItem key={book.id} value={book.id}>
-                {book.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+        <TextField
+          select
+          label="Book"
+          value={updateBarrow.book?.id || ""}
+          onChange={(e) =>
+            setUpdateBarrow((prev) => ({
+              ...prev,
+              book: { id: e.target.value },
+            }))
+          }
+          variant="standard"
+          sx={{
+            flex: "1 1 200px", // Diğer inputlarla aynı esnek genişlik
+            maxWidth: "100%", // Taşmayı engeller
+            "& .MuiInputBase-root": { height: 32 }, // Yükseklik eşitleme
+            "& .MuiSelect-select": {
+              padding: "6px 12px", // Padding’i diğer inputlarla eşitlemek için
+              color: "#4A3627", // Koyu kahve yazı
+            },
+            "& .MuiInput-underline:before": { borderBottomColor: "#8B6F47" }, // Orta kahve alt çizgi
+            "& .MuiInputLabel-root": { color: "#8B6F47" }, // Orta kahve label
+          }}
+        >
+          {books?.map((book) => (
+            <MenuItem key={book.id} value={book.id}>
+              {book.name}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <Button
           variant="contained"
           onClick={handleUpdateBarrow}
           sx={{
+            flex: "1 1 200px",
+            maxWidth: "100%",
             bgcolor: "#4A3627",
             color: "#F5F5DC",
             "&:hover": { bgcolor: "#6B4E31" },
